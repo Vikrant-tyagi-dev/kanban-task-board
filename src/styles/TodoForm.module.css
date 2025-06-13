@@ -1,0 +1,62 @@
+/* Simple and professional form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: #fff;
+  padding: 1.2rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
+}
+.form input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: border 0.2s;
+}
+.form input[type="text"]:focus {
+  border: 1px solid #6366f1;
+  outline: none;
+}
+.form label {
+  font-size: 1rem;
+  color: #3730a3;
+  font-weight: 500;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.actions button {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.actions button[type="button"] {
+  background: #e0e7ff;
+  color: #333;
+}
+.actions button:hover {
+  background: #4f46e5;
+}
+@media (max-width: 600px) {
+  .form {
+    padding: 0.7rem 0.4rem;
+    border-radius: 6px;
+    max-width: 98vw;
+  }
+  .form input[type="text"], .form label, .actions button {
+    font-size: 0.95rem;
+    padding: 0.3rem 0.7rem;
+  }
+}
