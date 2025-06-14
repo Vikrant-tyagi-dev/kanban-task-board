@@ -1,4 +1,8 @@
 /* Modern, clean board styling */
+*{
+  margin: 0;
+  padding: 0;
+}
 .board {
   display: flex;
   gap: 2rem;

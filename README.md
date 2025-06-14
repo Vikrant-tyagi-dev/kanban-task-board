@@ -1,12 +1,13 @@
 <!-- Kanban Task Board -->
 
-A simple Trello-style Kanban board built with React. Manage your todos visually with drag-and-drop, inline editing, and a clean, responsive UI.
+A Trello-style Kanban board built with React. Manage your todos visually with drag-and-drop, inline editing, and a clean, responsive UI.
 
 <!-- Features -->
 - Fetch, create, update, and delete todos using the DummyJSON Todos API
 - Kanban board with vertical lanes: Pending, In Progress, Completed
 - Drag and drop todos between lanes to update their status
-- Inline editing and deletion of todos
+- Inline editing and deletion of todos (after edit, click outside)
+- Add new todo by click + (btn - bottom of each) within the respective lane
 - Responsive and mobile-friendly design
 - Error handling for API failures
 
@@ -30,7 +31,7 @@ npm start
 yarn start
 ```
 
-The app will be available at [http://localhost:3000](http://localhost:3000).
+The app will be available at https://kanban-task-board-git-main-vikrant-tyagis-projects.vercel.app.
 
 <!-- Building for Production -->
 ```bash
