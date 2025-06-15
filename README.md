@@ -4,6 +4,7 @@ A Trello-style Kanban board built with React. Manage your todos visually with dr
 
 <!-- Features -->
 - Fetch, create, update, and delete todos using the DummyJSON Todos API
+- Scroll down to fetch all the tasks on first render (infinite scroll bar implemented)
 - Kanban board with vertical lanes: Pending, In Progress, Completed
 - Drag and drop todos between lanes to update their status
 - Inline editing and deletion of todos (after edit, click outside)

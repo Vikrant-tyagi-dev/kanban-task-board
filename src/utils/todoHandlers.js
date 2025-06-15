@@ -21,6 +21,17 @@ export async function loadTodos(setTodos) {
   setTodos(data.todos.map(mapStatus));
 }
 
+// Infinite scroll support: fetchTodos with limit/skip, append or set
+export async function loadTodosPaginated({ setTodos, limit, skip, append = false }) {
+  const data = await fetchTodos(limit, skip);
+  if (append) {
+    setTodos(prev => [...prev, ...data.todos.map(mapStatus)]);
+  } else {
+    setTodos(data.todos.map(mapStatus));
+  }
+  return data.todos.length;
+}
+
 export async function handleAddInline(todo, setTodos) {
   // Only send userId and completed to addTodo; status is not needed for API
   const completed = todo.status === STATUS.COMPLETED;

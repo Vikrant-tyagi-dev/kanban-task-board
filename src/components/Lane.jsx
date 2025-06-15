@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import TodoCard from './TodoCard';
 import styles from '../styles/Lane.module.css';
 
-const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDragStart }) => {
+const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDragStart, loading, hasMore, onLoadMore }) => {
   const [isOver, setIsOver] = useState(false);
   const [search, setSearch] = useState('');
   const [adding, setAdding] = useState(false);
   const [newTodo, setNewTodo] = useState('');
+  const scrollRef = useRef(null);
 
   const filteredTodos = todos.filter(todo =>
     todo.todo.toLowerCase().includes(search.toLowerCase())
@@ -20,6 +21,20 @@ const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDra
       setAdding(false);
     }
   };
+
+  // Infinite scroll for this lane only
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current || loading || !hasMore) return;
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      if (scrollTop + clientHeight >= scrollHeight - 40) {
+        onLoadMore && onLoadMore();
+      }
+    };
+    const node = scrollRef.current;
+    if (node) node.addEventListener('scroll', handleScroll);
+    return () => { if (node) node.removeEventListener('scroll', handleScroll); };
+  }, [loading, hasMore, onLoadMore]);
 
   return (
     <div
@@ -42,7 +57,7 @@ const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDra
         value={search}
         onChange={e => setSearch(e.target.value)}
       />
-      <div className={styles.scrollable}>
+      <div className={styles.scrollable} ref={scrollRef}>
         {filteredTodos.map(todo => (
           <TodoCard
             key={todo.id}
@@ -52,6 +67,12 @@ const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDra
             onDragStart={onDragStart}
           />
         ))}
+        {/* Loading indicator above the + add button */}
+        {hasMore && loading && (
+          <div style={{ textAlign: 'center', color: '#6366f1', fontWeight: 500, margin: '1rem 0' }}>
+            Loading more tasks...
+          </div>
+        )}
         {adding ? (
           <form onSubmit={handleAdd} className={styles.addForm} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <input

@@ -1,8 +1,9 @@
 // Service for interacting with DummyJSON Todos API
 const API_URL = 'https://dummyjson.com/todos';
 
-export const fetchTodos = async () => {
-  const res = await fetch(`${API_URL}`);
+export const fetchTodos = async (limit = 10, skip = 0) => {
+  // Fetch todos with pagination support (limit & skip)
+  const res = await fetch(`${API_URL}?limit=${limit}&skip=${skip}`);
   return res.json();
 };
 
