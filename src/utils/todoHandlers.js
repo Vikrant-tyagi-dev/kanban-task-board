@@ -22,15 +22,17 @@ export async function loadTodos(setTodos) {
 }
 
 export async function handleAddInline(todo, setTodos) {
-  const status = todo.status;
-  const newTodo = await addTodo({ ...todo, userId: 1, status, completed: status === STATUS.COMPLETED });
-  setTodos(prev => [...prev, { ...newTodo, status }]);
+  // Only send userId and completed to addTodo; status is not needed for API
+  const completed = todo.status === STATUS.COMPLETED;
+  const { status, ...todoPayload } = todo; // Remove status from payload
+  const newTodo = await addTodo({ ...todoPayload, userId: 1, completed });
+  setTodos(prev => [...prev, { ...newTodo, status: todo.status }]);
 }
 
 export async function handleUpdateInline(todo, setTodos) {
-  const status = todo.status;
-  await updateTodo(todo.id, { ...todo, status, completed: status === STATUS.COMPLETED });
-  setTodos(prev => prev.map(t => t.id === todo.id ? { ...t, ...todo, status } : t));
+  // Only send the updated title (edit value) and id
+  await updateTodo(todo.id, { todo: todo.todo });
+  setTodos(prev => prev.map(t => t.id === todo.id ? { ...t, todo: todo.todo } : t));
 }
 
 export async function handleDelete(id, setTodos) {
@@ -42,9 +44,10 @@ export async function handleDrop(e, status, todos, setTodos) {
   const todoId = e.dataTransfer.getData('todoId');
   const todo = todos.find(t => t.id === Number(todoId));
   if (!todo) return;
-  let updated = { ...todo, status, completed: status === STATUS.COMPLETED };
-  await updateTodo(todo.id, updated);
-  setTodos(prev => prev.map(t => t.id === todo.id ? { ...t, ...updated } : t));
+  // Only send id and completed status to updateTodo
+  const completed = status === STATUS.COMPLETED;
+  await updateTodo(todo.id, { completed });
+  setTodos(prev => prev.map(t => t.id === todo.id ? { ...t, status, completed } : t));
 }
 
 export function handleDragStart(e, todo) {

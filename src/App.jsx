@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import Board from './components/Board';
 import Lane from './components/Lane';
 import styles from './styles/Board.module.css';
@@ -14,8 +14,14 @@ import {
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState(null);
+  const hasLoaded = useRef(false);
 
-  useEffect(() => {
+    useEffect(() => {
+    // React 18 Strict Mode double-invokes useEffect in development to help catch side effects.
+    // The hasLoaded ref ensures loadTodos only runs once on initial mount, even in Strict Mode.
+    if (hasLoaded.current) return;
+    hasLoaded.current = true;
+
     (async () => {
       try {
         await loadTodos(setTodos);
