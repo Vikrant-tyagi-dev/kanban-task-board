@@ -67,28 +67,31 @@ const Lane = ({ title, laneType, onDrop, onAdd, onUpdate, onDelete, todos, onDra
             onDragStart={onDragStart}
           />
         ))}
-        {/* Loading indicator above the + add button */}
+        {/* Loading indicator above the sticky add button */}
         {hasMore && loading && (
           <div style={{ textAlign: 'center', color: '#6366f1', fontWeight: 500, margin: '1rem 0' }}>
             Loading more tasks...
           </div>
         )}
-        {adding ? (
-          <form onSubmit={handleAdd} className={styles.addForm} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            <input
-              className={styles.addInput}
-              type="text"
-              value={newTodo}
-              autoFocus
-              onChange={e => setNewTodo(e.target.value)}
-              placeholder={`Add new in ${title}`}
-            />
-            <button type="submit" className={styles.addTaskBtn}>Add</button>
-            <button type="button" className={styles.cancelTaskBtn} onClick={() => { setAdding(false); setNewTodo(''); }}>Cancel</button>
-          </form>
-        ) : (
-          <button className={styles.addBtn} onClick={() => setAdding(true)}>＋</button>
-        )}
+        {/* Sticky add form/button at the bottom of the scrollable area */}
+        <div className={styles.stickyAdd}>
+          {adding ? (
+            <form onSubmit={handleAdd} className={styles.addForm} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                className={styles.addInput}
+                type="text"
+                value={newTodo}
+                autoFocus
+                onChange={e => setNewTodo(e.target.value)}
+                placeholder={`Add new in ${title}`}
+              />
+              <button type="submit" className={styles.addTaskBtn}>Add</button>
+              <button type="button" className={styles.cancelTaskBtn} onClick={() => { setAdding(false); setNewTodo(''); }}>Cancel</button>
+            </form>
+          ) : (
+            <button className={styles.addBtn} onClick={() => setAdding(true)}>＋</button>
+          )}
+        </div>
       </div>
     </div>
   );

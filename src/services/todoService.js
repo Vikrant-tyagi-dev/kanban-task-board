@@ -36,3 +36,9 @@ export const deleteTodo = async (id) => {
   });
   return res.json();
 };
+
+export const fetchAllTodos = async () => {
+  // Fetch all todos from the API (up to 150, the DummyJSON max)
+  const res = await fetch(`${API_URL}?limit=150&skip=0`);
+  return res.json();
+};

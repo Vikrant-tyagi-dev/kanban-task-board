@@ -1,7 +1,7 @@
 // src/utils/todoHandlers.js
 // Centralized handlers for todo actions in the Trello-style Todo Board app
 
-import { fetchTodos, addTodo, updateTodo, deleteTodo } from '../services/todoService';
+import { fetchTodos, fetchAllTodos, addTodo, updateTodo, deleteTodo } from '../services/todoService';
 
 const STATUS = {
   PENDING: 'Pending',
@@ -63,4 +63,15 @@ export async function handleDrop(e, status, todos, setTodos) {
 
 export function handleDragStart(e, todo) {
   e.dataTransfer.setData('todoId', todo.id);
+}
+
+// Global search for todos across all data (not just loaded)
+export async function searchTodosAcrossAll(query, status) {
+  const data = await fetchAllTodos();
+  return data.todos
+    .map(mapStatus)
+    .filter(todo =>
+      todo.status === status &&
+      todo.todo.toLowerCase().includes(query.toLowerCase())
+    );
 }
